@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+<div id="loginDiv">
+    <form th:action="@{/login}" id="form" method="post">
+        <h1 style="text-align: center;color: aliceblue;">Login</h1>
+        <p>UserName:&nbsp;<input id="userName" type="text" name="userName" th:value="${userNameMsg != null ? userName : ''}"><label id="name_trip"></label></p>
+        <p>Password:&nbsp;&nbsp;<input id="password" type="password" name="userPassword" th:value="${userPasswordMsg != null ? userPassword : ''}"><label id="password_trip"></label></p>
+        <p>Code:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="code" type="text" name="code">
+            <img id="kaptcha" th:src="@{/kaptcha}" onclick="refresh_kaptcha()" style="width: 100px;height: 40px;">
+        </p>
+        <div style="text-align: center;margin-top: 30px;">
+            <input type="submit" class="button" value="login">
+            <a th:href="@{/forgetPassword}" >forgetPassword</a>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript" th:src="@{js/register.js}"></script>
+<script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{js/global.js}"></script>
+<script>
+    function refresh_kaptcha(){
+        var path = CONTEXT_PATH + "kaptcha?" + Math.random();
+        $("#kaptcha").attr("src", path);
+    }
+</script>
+</html>

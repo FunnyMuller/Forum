@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thyleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <link rel="stylesheet" th:href="@{css/register.css}">
+</head>
+<body>
+<div id="loginDiv">
+    <form th:action="@{/register}" method="post">
+        <h1>Register</h1>
+        <div>
+            <p>
+                用户姓名:
+                <input id="userName" type="text" autofocus required name="userName"
+                       th:value="${user != null ? user.userName : '' }">
+                <label id="name_trip"></label>
+            </p>
+        </div>
+
+        <div>
+            <p>
+                用户密码:
+                <input id="password" type="password" required name="userPassword" th:value="${user != null ? user.userPassword : ''}">
+                <label id="password_trip"></label>
+            </p>
+        </div>
+
+        <div>
+            <p>
+                确认密码:
+                <input id="confirmPassword" type="password" required name="confirmPassword">
+                <label id="surePassword_trip"></label>
+            </p>
+        </div>
+
+        <div>
+            <p>
+                电子邮件:
+                <input id="email" type="email" required name="userEmail"
+                       th:value="${user != null ? user.userEmail : ''}">
+                <label id="email_trip"></label>
+            </p>
+
+        </div>
+
+        <p style="text-align: center;">
+            <input type="submit" class="button" onblur="checkForm()" onclick="return submitT()" value="提交">
+            <input type="reset" class="button" value="重置">
+        </p>
+    </form>
+</div>
+</body>
+<script type="text/javascript" th:src="@{js/register.js}"></script>
+</html>

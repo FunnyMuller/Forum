@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .ui.menu {
+      border-radius: 0;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      background-color: #21ba45; /* 绿色背景色 */
+    }
+
+    .ui.menu .item {
+      font-size: 16px;
+    }
+
+    .ui.menu img {
+      margin-right: 10px;
+    }
+
+    .ui.menu .right.menu {
+      margin-right: 25%; /* 导览页在右侧1/4位置 */
+    }
+
+    .ui.menu .left.menu {
+      margin-left: 30%; /* 导览页在左侧1/3位置 */
+    }
+
+    .ui.menu .item.search input {
+      width: 200px;
+    }
+
+    .ui.menu .item.register,
+    .ui.menu .item.login {
+      margin-left: 20px;
+    }
+
+    .ui.container {
+      background-color: #ffffff;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 70px;
+    }
+
+    .ui.header {
+      font-size: 28px;
+    }
+
+    .ui.dividing.header {
+      border-bottom: 2px solid #ddd;
+    }
+
+    .ui.relaxed.divided.list .item {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.3s ease;
+    }
+
+    .ui.relaxed.divided.list .item:hover {
+      background-color: #f9f9f9;
+    }
+
+    .ui.dropdown.item:hover {
+      background-color: #f9f9f9;
+    }
+
+    .ui.dropdown .menu {
+      border-radius: 5px;
+    }
+
+    .ui.dropdown .item {
+      font-size: 14px;
+    }
+
+    .ui.container.form-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .ui.form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .ui.form textarea {
+      min-height: 100px;
+    }
+
+    .ui.modal {
+      max-width: 400px;
+    }
+
+  </style>
+  <title>发布帖子</title>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<div class="ui inverted fixed menu" th:replace="index::header">
+  <a href="#" class="item">
+    <img src="logo.png" alt="Logo">
+  </a>
+  <a href="#" class="item">首页</a>
+  <a href="#" class="item">帖子列表</a>
+  <a href="#" class="item">私信</a>
+  <div class="left menu">
+    <a href="#" class="item register">注册</a>
+    <a href="#" class="item login">登录</a>
+    <div class="item search">
+      <div class="ui icon input">
+        <input type="text" placeholder="搜索...">
+        <i class="search link icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="right menu">
+    <div class="item">
+      <img class="ui avatar image" src="user-avatar.jpg" alt="User Avatar">
+      <span>用户名</span>
+    </div>
+    <div class="item">
+      <div class="ui dropdown">
+        <i class="settings icon"></i>
+        <div class="menu">
+          <a href="#" class="item">修改个人信息</a>
+          <a href="#" class="item">修改密码</a>
+          <div class="divider"></div>
+          <a href="#" class="item">注销</a>
+          <a href="#" class="item" onclick="logout()">退出登录</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 发布帖子表单 -->
+<div class="ui container form-container">
+  <h2 class="header">发布帖子</h2>
+  <form th:action="@{/publish}" method="post">
+    <div class="field">
+      <label>帖子标题</label>
+      <input type="text" placeholder="请输入帖子标题" name="postTitle" >
+    </div>
+    <div class="field">
+      <div>
+        <label>帖子内容</label>
+        <input type="file"  accept=".jpg,.jepg,.png" name="postImageUrl">
+      </div>
+      <textarea rows="4" placeholder="请输入帖子内容" name="postContent"></textarea>
+    </div>
+    <button class="ui green button" type="submit" onclick="getModel()">发布帖子</button>
+  </form>
+</div>
+
+<!-- 发布帖子模态框 -->
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    发布成功
+  </div>
+  <div class="content">
+    <p>你的帖子已成功发布！</p>
+  </div>
+  <div class="actions">
+    <div class="ui button" onclick="closeModal()" th:href="@{/index}">关闭</div>
+  </div>
+
+</div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/semantic.min.js}"></script>
+<script>
+  $('.ui.form').submit(function(event) {
+    event.preventDefault();
+    $('.ui.modal').modal('show');
+  });
+  function closeModal() {
+    $('.ui.modal').modal('hide');
+  }
+  function getModel(){
+    $('.ui.modal').modal('show');
+    $.post("/publish",function(data,status){
+      setTimeout(function(){
+        $('.ui.modal').modal('hide');
+      },2000);
+    });
+  }
+</script>
+</body>
+</html>

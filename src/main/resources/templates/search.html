@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索页面</title>
+    <style>
+        /* 样式可以根据你的喜好进行自定义 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .search-input {
+            padding: 10px;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+        .search-results {
+            margin-top: 30px;
+        }
+        .search-result {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>搜索</h1>
+    <form class="search-form" action="/search" method="GET">
+        <input class="search-input" type="text" name="q" placeholder="请输入搜索关键词">
+        <button class="search-button" type="submit">搜索</button>
+    </form>
+
+    <div class="search-results">
+        <div class="search-result">
+            <b>巴萨</b>近况
+            <p>众所周知，<b>巴萨</b>作为一只老牌劲旅，自从疫情之后就出现了财务状况捉急的情况，由于之前大手笔购入了格子和登贝莱，导致在疫情没了球票的收入，导致俱乐部出现了太多的财务问题，球队功勋也一一不得不被卖出，但在最近出现了一些好转，从哈维付费入主到了巴萨教练后，虽然有一些曲折，但现在作为巴萨的主教练还是最好的人选。</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重置成功</title>
+<link rel="stylesheet" th:href="@{/css/operation.css}">
+</head>
+<body>
+
+<div id="successMessage">
+    <h1>重置成功！</h1>
+    <p>您的密码已成功重置。</p>
+    <p id="countdown">页面将在 <span id="timer">5</span> 秒后自动跳转到登录页面。</p>
+    <button onclick="manualRedirect()">立即跳转</button>
+</div>
+
+<script>
+    let countdown = 5;
+
+    function startCountdown() {
+        const timerElement = document.getElementById('timer');
+
+        // 更新计时器显示
+        function updateTimer() {
+            timerElement.textContent = countdown;
+        }
+
+        // 自动跳转
+        function redirectToHomePage() {
+            window.location.href = CONTEXT_PATH + 'login';  // 将此处替换为实际的跳转地址
+        }
+
+        // 开始倒计时
+        function doCountdown() {
+            updateTimer();
+            countdown--;
+
+            if (countdown < 0) {
+                redirectToHomePage();
+            } else {
+                setTimeout(doCountdown, 1000); // 每秒更新一次
+            }
+        }
+
+        doCountdown();
+    }
+
+    function manualRedirect() {
+        window.location.href = '/login';
+    }
+
+    // 在页面加载后启动自动倒计时
+    window.onload = startCountdown;
+</script>
+
+</body>
+</html>

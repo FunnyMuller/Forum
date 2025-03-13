@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
+  <link rel="stylesheet" th:href="@{/css/index.css}">
+  <title>论坛首页</title>
+</head>
+<body>
+<!-- 导航栏 -->
+<div class="ui inverted fixed menu" th:fragment="header">
+  <a href="#" class="item">
+    <img th:src="@{/i/favicon.png}" alt="Logo">
+  </a>
+  <a href="#" class="item"><i class="home icon"></i>首页</a>
+  <a href="#" class="item"><i class="file icon"></i>帖子列表</a>
+  <a href="#" class="item" th:if="${loginUser != null}"><i class="paper plane icon" th:if="${loginUser != null}"></i>私信</a>
+  <a href="#" class="item" th:if="${loginUser == null}"><i class="angle up icon" th:if="${loginUser == null}"></i>注册</a>
+  <a th:href="@{/login}" class="item"  th:if="${loginUser == null}"><i class="sign-in icon" th:if="${loginUser == null}"></i>登录</a>
+  <div class="ui icon input item">
+    <input type="text" placeholder="搜索...">
+    <i class="inverted circular search link icon"></i>
+  </div>
+  <div class="right menu">
+    <div class="item" th:if="${loginUser != null}">
+      <img class="ui avatar image" th:src="${loginUser.userImageUrl}" alt="User Avatar">
+      <span th:text="${loginUser.userName}">用户名</span>
+    </div>
+    <div class="item">
+      <div class="ui dropdown" id="settings-dropdown">
+        <i class="settings icon"></i>
+        <div class="menu">
+          <a href="#" class="item"><i class="edit icon"></i>修改个人信息</a>
+          <a href="#" class="item"><i class="edit icon"></i>修改密码</a>
+          <div class="divider"></div>
+          <a href="#" class="item"><i class="window close outline icon"></i>注销账号</a>
+          <a onclick="logout()" class="item" ><i class="sign-out icon"></i>退出登录</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 帖子列表 -->
+<div class="ui container">
+  <div class="ui dividing header">
+    <form th:action="@{/publish}" method="get">
+      <p>
+        帖子列表
+        <button class="ui right floated primary button" type="submit" >发布帖子</button>
+      </p>
+    </form>
+  </div>
+  <div class="ui relaxed divided list" th:each="map:${mapList}">
+    <!-- 示例帖子 -->
+    <div class="item">
+      <i class="large comment outline middle aligned icon"></i>
+      <div class="content">
+        <a class="header" th:text="${map.postTitle}">帖子标题</a>
+        <div class="description" th:text="${map.postUserName}" >作者：用户名</div>
+        <div class="description" th:text="${map.postContent}">摘要：帖子摘要内容...</div>
+        <div class="description" th:text="${#dates.format(map.postCreateTime,'yyyy-MM-dd HH:mm:ss')}">发布时间：2023-12-06</div>
+      </div>
+    </div>
+    <!-- 其他帖子... -->
+  </div>
+
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/semantic.min.js}"></script>
+<script th:src="@{/js/global.js}"></script>
+<script>
+  $('.ui.dropdown').dropdown();
+  function logout(){
+    const logout = confirm("确定要退出登录吗？");
+    if(!logout){
+      return false;
+    }
+    $.ajax({
+      type:"POST",
+      url:CONTEXT_PATH + "logout",
+      success: function(data){
+        const code = data.code;
+        if(code === 0) {
+          window.location.reload();
+        }
+        else{
+          alert(data.msg);
+        }
+      },
+      error: function(error){
+        console.error("退出登录失败",error)
+      }
+    })
+  }
+</script>
+</body>
+</html>

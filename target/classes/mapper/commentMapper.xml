@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricostone.communitymodule.DAO.commentMapper">
+    <sql id="select">
+        comment_id
+        , comment_post_id,comment_content,comment_user_id,
+        comment_image_url,comment_create_time,comment_entity_type,comment_target_name,comment_user_name
+    </sql>
+    <sql id="insert">
+        comment_post_id
+        ,comment_content,comment_user_id,
+        comment_image_url,comment_create_time,comment_entity_type,comment_target_name,comment_user_name,community_id,
+        comment_target_id
+    </sql>
+    <select id="getCommentList" resultType="Comment">
+        select
+        <include refid="select"></include>
+        from comment
+        where comment_entity_type = #{commentEntityType}
+        and comment_post_id = #{commentPostId}
+        <if test="commentTargetName == null">
+            and comment_target_name is null
+        </if>
+        and comment_target_id = #{commentTargetId}
+    </select>
+    <select id="getCommentCount" resultType="int">
+        select count(comment_id)
+        from comment
+        where comment_post_id = #{commentPostId}
+    </select>
+    <insert id="insertComment" parameterType="Comment">
+        insert into comment (<include refid="insert"></include>)
+        values
+        (#{commentPostId},#{commentContent},#{commentUserId},#{commentImageUrl},#{commentCreateTime},
+         #{commentEntityType},#{commentTargetName},#{commentUsername},#{communityId},#{commentTargetId})
+    </insert>
+    <select id="getCommentById" resultType="Comment">
+        select
+        <include refid="select"></include>
+        from comment
+        where comment_id = #{commentTargetId}
+    </select>
+</mapper>

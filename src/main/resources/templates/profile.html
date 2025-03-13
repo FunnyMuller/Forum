@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人资料</title>
+    <style>
+        /* 样式可以根据你的喜好进行自定义 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        .profile-info label {
+            font-weight: bold;
+            color: #555;
+        }
+        .profile-info p {
+            margin: 5px 0;
+        }
+        .profile-image {
+            text-align: center;
+        }
+        .profile-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .edit-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>个人资料</h1>
+    <div class="profile-image">
+        <img src="https://via.placeholder.com/150" alt="Profile Picture">
+    </div>
+    <div class="profile-info">
+        <label>用户名：</label>
+        <p>JohnDoe</p>
+    </div>
+    <div class="profile-info">
+        <label>姓名：</label>
+        <p>John Doe</p>
+    </div>
+    <div class="profile-info">
+        <label>邮箱：</label>
+        <p>johndoe@example.com</p>
+    </div>
+    <div class="profile-info">
+        <label>国家：</label>
+        <p>美国</p>
+    </div>
+    <div class="profile-info">
+        <label>个人简介：</label>
+        <p>This is your profile</p>
+    </div>
+    <button class="edit-button" onclick="editProfile()">编辑个人资料</button>
+</div>
+
+<script>
+    function editProfile() {
+        // 编辑个人资料的逻辑可以在此处添加
+        alert("编辑个人资料功能尚未实现！");
+    }
+</script>
+
+</body>
+</html>

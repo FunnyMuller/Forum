@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricostone.communitymodule.DAO.messageMapper">
+    <sql id="select">
+        id, content, receiver_id, sender_id, create_time, conversation_id
+    </sql>
+    <sql id="insert">
+        content, receiver_id, sender_id, create_time, conversation_id
+    </sql>
+    <select id="getMessagesByConversationId" resultType="Message">
+        select <include refid="select"></include>
+        from message
+        where conversation_id = #{conversationId}
+    </select>
+    <insert id="insertMessage" parameterType="Message">
+        insert into message (<include refid="insert"></include>)
+        values(#{id}, #{content}, #{receiverId}, #{senderId}, #{createTime}, #{conversationId})
+    </insert>
+</mapper>

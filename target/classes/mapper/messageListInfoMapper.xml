@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricostone.communitymodule.DAO.MessageListInfoMapper">
+    <sql id="select">
+        content, sender_username, sender_image_url, conversation_id, receiver_id, status
+    </sql>
+    <sql id="insert">
+        content, sender_username, sender_image_url, conversation_id, receiver_id, status
+    </sql>
+    <select id="selectMessageByToId" resultType="MessageListInfo">
+        select
+        <include refid="select"></include>
+        from message_list_info
+        where receiver_id = #{toUserId}
+        <!-- TODO:这里的toUserId命名修改 -->
+    </select>
+
+    <insert id="insertMessage">
+        insert into message_list_info (<include refid="insert"></include>)
+        values (#{content}, #{senderUsername}, #{sender_image_url}, #{conversationId}, #{receiverId}, #{status})
+    </insert>
+    <update id="updateMessageContent">
+        update message_list_info
+        set content = #{content}
+        where conversation_id= #{conversationId}
+    </update>
+</mapper>

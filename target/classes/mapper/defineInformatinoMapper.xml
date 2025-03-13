@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ricostone.communitymodule.DAO.defineInformationMapper">
+    <insert id="insertDefineInformation">
+        insert into defineinformation (community_id, icon, reply_css, background)
+        values(#{communityId}, #{icon}, #{reply_css}, #{background})
+    </insert>
+    <update id="updateDefineInformation">
+        update defineinformation
+        set
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+            <if test="reply_css != null">
+                reply_css = #{reply_css},
+            </if>
+            <if test="background != null">
+                background = #{background}
+            </if>
+        where community_id = #{communityId}
+    </update>
+    <select id="selectDefineInformation" resultType="defineInformation">
+        select community_id, icon, reply_css, background
+       from defineinformation where community_id = #{communityId}
+    </select>
+    <select id="communityCount" resultType="int">
+        select count(*) from defineinformation
+    </select>
+</mapper>

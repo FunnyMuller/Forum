@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义论坛</title>
+    <!-- 引入Semantic UI样式表 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css">
+    <style>
+        body {
+            background-color: #f8f8f8;
+        }
+
+        /* 导航栏 */
+        .ui.menu {
+            border-radius: 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .ui.menu .item {
+            font-size: 16px;
+        }
+
+        .ui.menu img {
+            margin-right: 10px;
+        }
+
+        .ui.container {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 70px; /* 上边距 */
+        }
+
+        .ui.header {
+            font-size: 28px;
+        }
+
+        .ui.segment {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .ui.relaxed.divided.list .item {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.3s ease; /* 添加过渡效果 */
+        }
+
+        .ui.relaxed.divided.list .item:hover {
+            background-color: #f9f9f9; /* 鼠标悬停时的背景颜色 */
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+<div th:replace="index::header"></div>
+<div hidden="hidden" th:value="${loginUser.communityId}"></div>
+<!-- 主体内容容器 -->
+<div class="ui container">
+    <!-- 上传文件区域 -->
+    <form th:action="@{/getDefineInformation}" method="post" enctype="multipart/form-data">
+        <div class="ui segment">
+            <h2 class="ui header">上传背景</h2>
+            <div class="field">
+                <label>选择文件</label>
+                <input type="file" name="background" id="background">
+            </div>
+        </div>
+        <div class="ui segment">
+            <h2 class="ui header">上传评论的css格式</h2>
+            <div class="field">
+                <label>选择文件</label>
+                <input type="file" name="reply_css" id="cssType">
+            </div>
+        </div>
+        <div class="ui segment">
+            <h2 class="ui header">上传图标</h2>
+            <div class="field">
+                <label>选择文件</label>
+                <input type="file" name="icon" id="icon">
+            </div>
+        </div>
+        <button type="submit">提交</button>
+    </form>
+</div>
+
+<!-- 引入Semantic UI脚本 -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.js"></script>
+
+<!-- 文件上传和内容渲染的JavaScript代码 -->
+<script>
+    // const background = document.getElementById('background');
+    // const cssType = document.getElementById('cssType');
+    // const icon = document.getElementById('icon');
+    // event.preventDefault();
+    // const formData = new FormData(form);
+    // $.ajax({
+    //     url: '/community/forum/define',
+    //     type: 'POST',
+    //     data: {
+    //         background: background,
+    //         cssType: cssType,
+    //         icon: icon
+    //     },
+    //     success: function (data) {
+    //         alert('上传成功');
+    //     },
+    //     error: function (data) {
+    //         alert('上传失败');
+    //     }
+    // });
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        $.ajax({
+            url: '/community/getDefineInformation',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            // 根据传来的code来确定是否上传成功
+            success: function (data) {
+                if (data.code === 0) {
+                    alert('上传成功');
+                    // 重定向到 index
+                    window.location.href = '/community/index';
+                } else {
+                    alert('上传失败');
+                }
+            },
+        });
+    });
+</script>
+</body>
+</html>

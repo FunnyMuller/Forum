@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择论坛</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #001e4e, #0060ba);
+            background: url("/community/background/Ilya_Milstein_Mr_Porter_3.jpg");
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        select {
+            padding: 14px 20px;
+            font-size: 18px;
+            margin-bottom: 30px;
+            border: none;
+            border-radius: 6px;
+            background-color: #f8f9fa;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        button {
+            padding: 14px 40px;
+            font-size: 18px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>选择论坛</h1>
+    <form>
+        <select id="mySelect" name="communityId">
+            <option value="1">论坛 1</option>
+            <option value="2">论坛 2</option>
+            <option value="3">论坛 3</option>
+            <option value="4">论坛 4</option>
+            <option value="5">论坛 5</option>
+        </select>
+        <p>当前选择: <span id="output"></span></p>
+        <button type="submit" onclick="getCommunity(event)">提交</button>
+        <button type="button">创建论坛</button>
+    </form>
+</div>
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/semantic.min.js}"></script>
+<script>
+    var select = document.getElementById("mySelect");
+    var output = document.getElementById("output");
+    output.innerHTML = select.value;
+
+    select.onchange = function () {
+        output.innerHTML = this.value;
+    }
+
+    // ajax 请求 提交选择的论坛
+    function getCommunity() {
+        event.preventDefault();
+        const communityId = document.getElementById("mySelect").value;
+        $.ajax({
+            url: "/community/chooseCommunity",
+            type: "POST",
+            data: {
+                communityId: communityId
+            },
+            success: function (response) {
+                var data = JSON.parse(response);
+                if (data.code === 0) {
+                    window.location.href = "/community/getCommunity";
+                } else {
+                    alert(data.msg);
+                }
+            },
+        });
+    }
+</script>
+
+</body>
+</html>

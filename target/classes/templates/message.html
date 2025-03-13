@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/message.css}">
+    <title>私信界面</title>
+</head>
+<script th:src="@{/js/jquery.min.js}"></script>
+<body>
+<div class="parent">
+    <div class="left">
+        <ui class="chatList">
+            <li class="message-container" th:each="messageListInfo:${messageListInfos}" >
+                <img th:src="${messageListInfo.senderImageUrl}" class="pg" th:data-id="${messageListInfo.conversationId}"
+                     onclick="loadConversation(this.getAttribute('data-id'))">
+                    <div class="information">
+                    <span class="senderName" th:utext="${messageListInfo.senderUsername}" id="senderName">发送者姓名</span>
+                    <span class="preview" th:utext="${messageListInfo.content}">发送的信息简讯</span>
+                </div>
+            </li>
+        </ui>
+    </div>
+    <div class="right">
+        <div class="senderName"><span></span></div>
+        <div class="MessageList" id="messageList">
+        </div>
+        <div class="inputList">
+            <textarea maxlength="100" id="textareaContent" name="messageContent" placeholder="请输入你要发送的信息" oninput="updateCharacterCount()"></textarea>
+            <div class="commentText">
+                <div class="textLine">还能输入<em id="characterCount">100</em>个字符</div>
+                <button class="sendComment" onclick="sendMessage()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function loadConversation(messageConversationId){
+        fetch('/community/message/getConversationDetail/' + messageConversationId)
+            .then(respond => respond.json())
+            .then(map =>{
+                // TODO: 这里的判空怎么做会比较好？
+                if (map === null){
+                    alert("信息错误");
+                    return false;
+                }
+                // 更新右侧详细内容区域
+                document.querySelector('.senderName span').innerHTML = map.sender.userName;
+
+                // 清空原有的消息列表
+                document.querySelector('#messageList').innerHTML = '';
+
+                // 循环添加消息到消息列表
+                map.messages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = message.senderId === map.sender.userId ? "sender" : "receiver";
+                    messageDiv.innerHTML = `
+                        <img class="pg" src="${message.senderId === map.sender.userId ? map.sender.userImageUrl : map.receiver.userImageUrl}">
+                        <div class="sendMes">${message.content}</div>
+                    `;
+                    document.querySelector('#messageList').appendChild(messageDiv);
+                });
+            })
+            .catch(error => console.error('Error loading conversation:', error));
+    }
+    function sendMessage(){
+        let content = document.getElementById('textareaContent').value;
+        if(messageContent === null) alert("请输入内容再点击发送！");
+        let senderName = document.getElementById('#senderName');
+        $.ajax({
+            url: '/community/message/sendMessage',
+            type: 'POST',
+            data: {
+                content: content,
+                senderName: senderName
+            },
+            success: function (response) {
+                console.log("发送成功！");
+                $("#textareaContent").val("");
+                loadConversation(messageToUsername)
+            },
+            error: function () {
+                alert("发送失败！");
+            }
+        })
+    }
+    function updateCharacterCount(){
+        // 获取 textarea 的长度
+        let textarea = document.getElementById('#textarea');
+        let text = textarea.value;
+        let length = text.length();
+
+        // 计算剩余字符
+        let remainCharacter = 100 - length;
+
+        // 改变剩余字符
+        var characterCountElement = document.getElementById("characterCount");
+        characterCountElement.innerHTML = remainCharacter;
+
+        // 判断剩余字符数是否小于等于0，如果是，则禁用textarea的输入
+        if (remainCharacter <= 0) {
+            textarea.disabled = true;
+        } else {
+            textarea.disabled = false;
+        }
+    }
+</script>

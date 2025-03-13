@@ -1,0 +1,57 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f5f5 url("../i/photo.jpg") no-repeat 0px 0px;
+    background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+}
+
+.ui.menu {
+    border-radius: 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ui.menu .item {
+    font-size: 16px;
+}
+
+.ui.menu img {
+    margin-right: 10px;
+}
+
+.ui.container {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 70px; /* 上边距 */
+}
+
+.ui.header {
+    font-size: 28px;
+}
+
+.ui.dividing.header {
+    border-bottom: 2px solid #ddd;
+}
+
+.ui.relaxed.divided.list .item {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease; /* 添加过渡效果 */
+}
+
+.ui.relaxed.divided.list .item:hover {
+    background-color: #f9f9f9; /* 鼠标悬停时的背景颜色 */
+}
+
+.ui.dropdown.item:hover {
+    background-color: #f9f9f9;
+}
+
+.ui.dropdown .menu {
+    border-radius: 5px;
+}
+
+.ui.dropdown .item {
+    font-size: 14px;
+}
